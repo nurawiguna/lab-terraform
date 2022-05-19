@@ -3,17 +3,6 @@ provider "google" {
     region = "asia-southeast2"
 }
 
-variable "network_name" {
-    description = "Network untuk dev environment" 
-}
-
-variable "subnet_ip_range" {
-    description = "Subnet untuk dev environment"
-    type = list(object({
-        range = string
-        name = string
-    }))
-}
 
 resource "google_compute_network" "dev_network" {
     name = var.network_name
@@ -36,7 +25,7 @@ resource "google_compute_subnetwork" "dev_subnet_02" {
     ip_cidr_range = var.subnet_ip_range[1].range
     network = google_compute_network.dev_network.id
     region = "asia-southeast2"
-} 
+}
 
 
 
@@ -65,12 +54,22 @@ resource "google_compute_subnetwork" "dev_subnet_02" {
 
 
 
-# -------------------- setup instance --------------------
-resource "google_compute_instance" "vm_instance" {
-    name         = "terraform-instance-testing"
-    machine_type = "e2-micro"
+# -------------------- Setup Instance --------------------
+resource "google_compute_instance" "dev_instance" {
+    name = "dev-instance"
+    machine_type = "f1-micro"
+    zone = "asia-southeast2-a"
+    description = "ini adalah instance untuk dev environment"
+
     boot_disk {
-    initialize_params {
-        image = "ubuntu-os-cloud/ubuntu-2204-lts"
+        initialize_params {
+            image = "ubuntu-2004-lts"
+            # image = data.google_compute_image.ubuntu_image.self_link
+        }
+    }
+
+    network_interface {
+        network = google_compute_subnetwork.dev_subnet_01.network
+        subnetwork = google_compute_subnetwork.dev_subnet_01.self_link
     }
 }
