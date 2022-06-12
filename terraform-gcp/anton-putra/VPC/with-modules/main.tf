@@ -12,8 +12,7 @@ provider "google" {
 # https://github.com/terraform-google-modules/terraform-google-network
 module "vpc" {
     source  = "terraform-google-modules/network/google"
-    # google_project = locals.project
-    version = "0.14"
+    version = "~> 4.0"
 
     project_id      = local.project
     network_name    = "main-vpc"
