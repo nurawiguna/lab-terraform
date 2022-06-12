@@ -56,3 +56,28 @@ resource "google_compute_router_nat" "nat" {
         source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
     }
 }
+
+
+# Setup Instance
+# https://www.terraform.io/docs/providers/google/r/compute_instance.html
+# resource "google_compute_instance" "tf_instance" {
+#     name = "instance-by-terraform"
+#     machine_type = "f1-micro"
+#     zone = "asia-southeast2-a"
+
+#     network_interface {
+#         network = google_compute_network.main.id
+#         access_config {
+#             # name = "External NAT"
+#             # nat_ip = google_compute_router_nat.nat.name
+#         }
+#     }
+#     boot_disk {
+#         initialize_params {
+#             image = "ubuntu-os-cloud/ubuntu-2004-lts"
+#             size = "30"
+
+#         }
+#     }
+
+# }
